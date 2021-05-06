@@ -94,6 +94,7 @@
   .menu .secao .opcoes .opcao .preco {
     font-weight: bold;
     font-size: 16px;
+    width: 50%;
   }
   
   .opcao .check {
@@ -211,7 +212,32 @@
     font-size: 20px;
     margin-top: 10px;
   }
-  
+
+  .valores {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .subtrair-unidades{
+    color: #CF2B2B;
+  }
+
+  .adicionar-unidades{
+    color:#32B72F;
+  }
+
+  .contador {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .contador span {
+    padding:0 5px;
+  }
   .escondido {
     display: none;
   }
+
+  
