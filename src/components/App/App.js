@@ -6,18 +6,58 @@ import React from 'react';
 
 export default function App() {
 
-    const [valor, setValor] = React.useState(false);
+    const [estadoBotao, setEstadoBotao] = React.useState(false);
     const [dados, setDados] = React.useState(dadosServidor);
 
+    function selecionarProduto(id0, id){
+        if(!dados[id0].produtos[id].selecionado){
+            dados[id0].produtos[id].selecionado = true;
+        } else {
+            dados[id0].produtos[id].selecionado = false;
+
+        }
+        setDados([...dados]);
+        
+        const estadoSecoes = [];
+        dados.forEach(item => {
+            estadoSecoes.push(item.produtos.filter(item => item.selecionado===true).length);
+        });
+        console.log(estadoSecoes);
+
+        const numeroSecoesNaoSelecionadas = estadoSecoes.filter(item => item === 0).length;
+        const todasSecoesSelecionadas = numeroSecoesNaoSelecionadas === 0;
+        if(todasSecoesSelecionadas){
+            setEstadoBotao(true);
+        } else {
+            setEstadoBotao(false);
+        }
+    }
+
+    function alterarContador(tipo, unidadesContador, setUnidadesContador){
+        if(tipo ==="reset"){
+            setUnidadesContador(1);
+        }
+        else if(tipo ==="adicao"){
+            setUnidadesContador(unidadesContador+1);
+        }else{
+            if(unidadesContador>1){
+                setUnidadesContador(unidadesContador-1);
+            }
+        }
+    }
+   
     return(
         <>
             <Overlay />
             <Header titulo="FoodCamp" subtitulo="Sua comida em 6 minutos"/>
-            <Menu dados={dados} setValor={setValor}/>
-            <Footer valor={valor}/>
+            <Menu dados={dados} selecionarProduto={selecionarProduto} 
+                     alterarContador={alterarContador}/>
+            <Footer estadoBotao={estadoBotao}/>
         </>
     );
 }
+
+
 const dadosServidor = [
     {apresentacao: "Primeiro, seu prato",
     tipo: "pratos",
