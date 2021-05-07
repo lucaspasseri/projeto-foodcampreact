@@ -1,0 +1,19 @@
+.menu .secao {
+    margin-bottom: 12px;
+  }
+  
+  .menu .secao .opcoes {
+    overflow-x: scroll;
+    width: 100%;
+    padding: 10px 0;
+  }
+  
+  .menu .secao > .titulo {
+    font-family: 'Righteous', cursive;
+    font-size: 26px;
+    letter-spacing: -0.018em;
+  }
+  
+  .menu .secao .opcoes {
+    display: flex;
+  }
