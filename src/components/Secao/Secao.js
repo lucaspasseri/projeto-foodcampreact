@@ -18,6 +18,7 @@ export default function Secao(props){
                                                 descricao={item.descricao}
                                                 preco={item.preco}
                                                 selecionado={item.selecionado}
+                                                quantidade={item.quantidade}
                                                 selecionarProduto={selecionarProduto}
                                                 alterarContador={alterarContador}
                                             />)

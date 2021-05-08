@@ -5,16 +5,17 @@ import Footer from './../Footer/Footer';
 import React from 'react';
 
 export default function App() {
-
+    
     const [estadoBotao, setEstadoBotao] = React.useState(false);
     const [dados, setDados] = React.useState(dadosServidor);
-
     function selecionarProduto(id0, id){
         if(!dados[id0].produtos[id].selecionado){
             dados[id0].produtos[id].selecionado = true;
+            dados[id0].produtos[id].quantidade=1;
+
         } else {
             dados[id0].produtos[id].selecionado = false;
-
+            dados[id0].produtos[id].quantidade = 0;
         }
         setDados([...dados]);
         
@@ -22,7 +23,6 @@ export default function App() {
         dados.forEach(item => {
             estadoSecoes.push(item.produtos.filter(item => item.selecionado===true).length);
         });
-        console.log(estadoSecoes);
 
         const numeroSecoesNaoSelecionadas = estadoSecoes.filter(item => item === 0).length;
         const todasSecoesSelecionadas = numeroSecoesNaoSelecionadas === 0;
@@ -33,26 +33,39 @@ export default function App() {
         }
     }
 
-    function alterarContador(tipo, unidadesContador, setUnidadesContador){
-        if(tipo ==="reset"){
-            setUnidadesContador(1);
+    function alterarContador(tipo, unidadesContador, setUnidadesContador, id0, id){
+        if(tipo ==="resetESet"){
+            if(dados[id0].produtos[id].selecionado){
+                dados[id0].produtos[id].quantidade=1; 
+                setUnidadesContador(1); 
+            }
+            else{
+                dados[id0].produtos[id].quantidade=0; 
+                setUnidadesContador(0); 
+            }    
         }
         else if(tipo ==="adicao"){
+            dados[id0].produtos[id].quantidade++;
             setUnidadesContador(unidadesContador+1);
         }else{
             if(unidadesContador>1){
+                dados[id0].produtos[id].quantidade--;
                 setUnidadesContador(unidadesContador-1);
+            }
+            else if(unidadesContador===1){
+                dados[id0].produtos[id].selecionado=false;
+                setDados([...dados]);
             }
         }
     }
-   
+
     return(
         <>
             <Overlay />
             <Header titulo="FoodCamp" subtitulo="Sua comida em 6 minutos"/>
             <Menu dados={dados} selecionarProduto={selecionarProduto} 
                      alterarContador={alterarContador}/>
-            <Footer estadoBotao={estadoBotao}/>
+            <Footer estadoBotao={estadoBotao} dados={dados}/>
         </>
     );
 }
@@ -66,22 +79,25 @@ const dadosServidor = [
         imagem: "frango_yin_yang",
         titulo: "Frango Yin Yang",
         descricao: "Um pouco de batata, um pouco de salada",
-        preco: "R$ 14,90",
-        selecionado: false},
+        preco: 14.90,
+        selecionado: false,
+        quantidade: 0},
 
         {produto: "prato-carne",
         imagem: "frango_yin_yang",
         titulo: "Carne Yin Yang",
         descricao: "Um pouco de batata, um pouco de salada",
-        preco: "R$ 17,90",
-        selecionado: false},
+        preco: 17.90,
+        selecionado: false,
+        quantidade: 0},
 
         {produto: "prato-peixe",
         imagem: "frango_yin_yang",
         titulo: "Peixe Yin Yang",
         descricao: "Um pouco de batata, um pouco de salada",
-        preco: "R$ 16,90",
-        selecionado: false
+        preco: 16.90,
+        selecionado: false,
+        quantidade: 0
     }]},
     {apresentacao: "Agora, sua bebida",
     tipo: "bebidas",
@@ -90,22 +106,25 @@ const dadosServidor = [
         imagem: "coquinha_gelada",
         titulo: "Coquinha gelada",
         descricao: "Lata 350ml",
-        preco: "R$ 6,90",
-        selecionado: false},
+        preco: 6.90,
+        selecionado: false,
+        quantidade: 0},
 
         {produto: "bebida-guarana",
         imagem: "coquinha_gelada",
         titulo: "Guaraná gelado",
         descricao: "Lata 350ml",
-        preco: "R$ 4,90",
-        selecionado: false},
+        preco: 4.90,
+        selecionado: false,
+        quantidade: 0},
 
         {produto: "bebida-suco",
         imagem: "coquinha_gelada",
         titulo: "Suco gelado",
         descricao: "500ml",
-        preco: "R$ 7,90",
-        selecionado: false
+        preco: 7.90,
+        selecionado: false,
+        quantidade: 0
     }]},
     {apresentacao: "Por fim, sua sobremesa",
     tipo: "sobremesas",
@@ -114,21 +133,24 @@ const dadosServidor = [
         imagem: "pudim",
         titulo: "Pudim",
         descricao: "Apenas um pudim",
-        preco: "R$ 7,90",
-        selecionado: false},
+        preco: 7.90,
+        selecionado: false,
+        quantidade: 0},
 
         {produto: "sobremesa-mousse",
         imagem: "pudim",
         titulo: "Mousse",
         descricao: "Cremoso, gostoso",
-        preco: "R$ 6,90",
-        selecionado: false},
+        preco: 6.90,
+        selecionado: false,
+        quantidade: 0},
 
         {produto: "sobremesa-brownie",
         imagem: "pudim",
         titulo: "Brownie",
         descricao: "É um bolinho",  
-        preco: "R$ 4,90",
-        selecionado: false    
+        preco: 4.90,
+        selecionado: false,
+        quantidade: 0  
     }]}
 ];
